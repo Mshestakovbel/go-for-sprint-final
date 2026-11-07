@@ -5,6 +5,7 @@ import (
 	"strings"
 	"strconv"
 	"log"
+	"fmt"
 )
 
 // Основные константы, необходимые для расчетов.
@@ -49,12 +50,13 @@ func meanSpeed(steps int, height float64, duration time.Duration) float64 {
 				return 0
 			}
 			d := distance(steps, height)
-			speed := d / duration.Hour()
+			speed := d / duration.Hours()
 			return speed
 }
 
 func TrainingInfo(data string, weight, height float64) (string, error) {
 	// TODO: реализовать функцию
+	       var calories float64
            steps, kind, t, err := parseTraining(data)
 		       if err != nil {
 				    log.Println(err)
@@ -62,12 +64,11 @@ func TrainingInfo(data string, weight, height float64) (string, error) {
 			   }
 		       dist := distance(steps, height)
 			   spd := meanSpeed(steps, height, t)
-		   calories := WalkingSpentCalories(steps, weight, height, t)
 		   switch kind {
 		       case "Ходьба":
-    	 		     calories, err := WalkingSpentCalories(steps, weight, height, t)
+    	 		     calories, err = WalkingSpentCalories(steps, weight, height, t)
 				case "Бег":
-					 calories, err := RunningSpentCalories(steps, weight, height, t)
+					 calories, err = RunningSpentCalories(steps, weight, height, t)
                 default:
 					 return "", fmt.Errorf("неизвестный тип тренировки")
 		   }
@@ -75,7 +76,7 @@ func TrainingInfo(data string, weight, height float64) (string, error) {
 				     log.Println(err)
 					 return "", err
 			   }
-		   return fmt.Sprintf("Тип тренировки: %s\nДлительность: %.2f.\nДистанция: %.2f км.\nСкорость: %.2f км/ч\nСожгли калорий: %.2f", kind, t.Hours(), dist, spd, calories), nil
+		   return fmt.Sprintf("Тип тренировки: %s\nДлительность: %.2f ч.\nДистанция: %.2f км.\nСкорость: %.2f км/ч\nСожгли калорий: %.2f", kind, t.Hours(), dist, spd, calories), nil
 }
 
 func RunningSpentCalories(steps int, weight, height float64, duration time.Duration) (float64, error) {
