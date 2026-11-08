@@ -32,9 +32,11 @@ func parsePackage(data string) (int, time.Duration, error) {
 		   t, err := time.ParseDuration(s[1])
 		      if err != nil {
 				return 0, 0, fmt.Errorf("Время задано неверно: %q", s[1])
-			  } 
+			  }
+		   if t <= 0 {
+                return 0, 0, fmt.Errorf("Время задано неверно: %q", s[1])
+		   }	   
           return steps, t, nil
-
 }
 
 func DayActionInfo(data string, weight, height float64) string {
@@ -48,6 +50,9 @@ func DayActionInfo(data string, weight, height float64) string {
 			  if steps <= 0 {
                       return ""
 			  }
+		   if t <= 0 {
+                return ""
+		   }	   
              distance := float64(steps) * stepLength / mInKm
              calories, err = spentcalories.WalkingSpentCalories(steps, weight, height, t)
 			 	   if err != nil {
