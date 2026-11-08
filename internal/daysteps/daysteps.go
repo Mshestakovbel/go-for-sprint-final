@@ -62,7 +62,7 @@ func DayActionInfo(data string, weight, height float64) string {
     calories, err = spentcalories.WalkingSpentCalories(steps, weight, height, t)
 	if err != nil {
 	//Исправил вывод ошибки	
-	    return fmt.Sprintf("incorrect calories counting: %w", err)
+	    return fmt.Sprintf("incorrect calories counting: %v", err)
 	}
 	return fmt.Sprintf("Количество шагов: %d.\nДистанция составила %.2f км.\nВы сожгли %.2f ккал.\n", steps, distance, calories)
 }
