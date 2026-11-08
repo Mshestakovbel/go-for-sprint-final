@@ -39,8 +39,9 @@ func parsePackage(data string) (int, time.Duration, error) {
 
 func DayActionInfo(data string, weight, height float64) string {
 	// TODO: реализовать функцию
+	          var calories float64
               steps, t, err := parsePackage(data)
-			       if err != 0 {
+			       if err != nil {
                       fmt.Println(err)
                       return "" 
 					}
@@ -48,6 +49,9 @@ func DayActionInfo(data string, weight, height float64) string {
                       return ""
 			  }
              distance := float64(steps) * stepLength / mInKm
-             calories := spentcalories.WalkingSpentCalories(steps, weight, height, t)
-			 return fmt.Sprintf("Количество шагов: %d.\nДистанция составила %.2f.\nВы сожгли %.2f.\n", steps, distance, calories)
+             calories, err = spentcalories.WalkingSpentCalories(steps, weight, height, t)
+			 	   if err != nil {
+					  return "Ошибка при подсчете калорий при ходьбе"
+				   }
+			 return fmt.Sprintf("Количество шагов: %d.\nДистанция составила %.2f км.\nВы сожгли %.2f ккал.\n", steps, distance, calories)
 }
