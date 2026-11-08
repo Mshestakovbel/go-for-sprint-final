@@ -34,6 +34,9 @@ func parseTraining(data string) (int, string, time.Duration, error) {
 			    if err != nil {
 					return 0, "", 0, fmt.Errorf("Время задано неверно: %q", s[2])
 				}
+			if t <=0 {
+					return 0, "", 0, fmt.Errorf("Время задано неверно: %q", s[2])
+			}	
 			return steps, s[1], t, nil	 			   
 }
 
@@ -76,7 +79,7 @@ func TrainingInfo(data string, weight, height float64) (string, error) {
 				     log.Println(err)
 					 return "", err
 			   }
-		   return fmt.Sprintf("Тип тренировки: %s\nДлительность: %.2f ч.\nДистанция: %.2f км.\nСкорость: %.2f км/ч\nСожгли калорий: %.2f", kind, t.Hours(), dist, spd, calories), nil
+		   return fmt.Sprintf("Тип тренировки: %s\nДлительность: %.2f ч.\nДистанция: %.2f км.\nСкорость: %.2f км/ч\nСожгли калорий: %.2f\n", kind, t.Hours(), dist, spd, calories), nil
 }
 
 func RunningSpentCalories(steps int, weight, height float64, duration time.Duration) (float64, error) {
